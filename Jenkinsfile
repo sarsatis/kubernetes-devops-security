@@ -37,6 +37,16 @@ pipeline {
             }
         }
 
+        stage('Maven build') {
+            steps {
+                script {
+                    container(name: 'maven') {
+                        sh "mvn test"
+                    }
+                }
+            }
+        }
+
         // stage('Build Image') {
         //     steps {
         //         script {
