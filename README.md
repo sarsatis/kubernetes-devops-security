@@ -97,6 +97,8 @@ and add webhook in sonarqube ui aswell http://34.28.94.32:30685/sonarqube-webhoo
 
 commented un used imports to resolve code smells
 
+docker restart sonarqube (if you restart your vm)
+
 # Added dependency check
 added plugin in pom.xml and added stage in jenkins
 to check what other configurations https://jeremylong.github.io/DependencyCheck/dependency-check-maven/

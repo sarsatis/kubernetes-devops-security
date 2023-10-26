@@ -47,6 +47,12 @@ spec:
       - sleep
     args:
       - "9999999"
+  - name: docker
+    image: docker
+    command:
+      - sleep
+    args:
+      - "9999999"
   
 
 
