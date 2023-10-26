@@ -51,7 +51,7 @@ pipeline {
             steps {
                 script {
                     container(name: 'maven') {
-                        sh "mvn org.pittest:pittest-maven:mutationCoverage"
+                        sh "mvn org.pitest:pitest-maven:mutationCoverage"
                     }
                 }
             }
