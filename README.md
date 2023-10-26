@@ -97,5 +97,13 @@ and add webhook in sonarqube ui aswell http://34.28.94.32:30685/sonarqube-webhoo
 
 commented un used imports to resolve code smells
 
+# Added dependency check
+added plugin in pom.xml and added stage in jenkins
+to check what other configurations https://jeremylong.github.io/DependencyCheck/dependency-check-maven/
+
+OWASP-dependency-check-plugin is the plugin which we use in jenkins
+
+
+
 
 

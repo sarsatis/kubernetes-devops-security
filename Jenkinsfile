@@ -62,44 +62,67 @@ pipeline {
         //     }
         // }
 
-        // Below stage is without wait timeout it doesnt fail pipeline if sonar is failed
+        // // Below stage is without wait timeout it doesnt fail pipeline if sonar is failed
+        // // stage('SonarQube Analysis') {
+        // //   steps {
+        // //     script {
+        // //         container(name: 'maven') {
+        // //             sh """
+        // //             mvn clean verify sonar:sonar \
+        // //             -Dsonar.projectKey=kubernetes-devops-security \
+        // //             -Dsonar.projectName='kubernetes-devops-security' \
+        // //             -Dsonar.host.url=http://34.28.94.32:9000 \
+        // //             -Dsonar.token=sqp_95c7d3f3a89f89b14c4a7c7d65012b7625119bfd
+        // //             """
+        // //         }
+        // //     }
+        // //   }
+        // // }
+
         // stage('SonarQube Analysis') {
         //   steps {
         //     script {
         //         container(name: 'maven') {
+        //           withSonarQubeEnv('SonarQube'){
         //             sh """
         //             mvn clean verify sonar:sonar \
         //             -Dsonar.projectKey=kubernetes-devops-security \
         //             -Dsonar.projectName='kubernetes-devops-security' \
         //             -Dsonar.host.url=http://34.28.94.32:9000 \
-        //             -Dsonar.token=sqp_95c7d3f3a89f89b14c4a7c7d65012b7625119bfd
         //             """
+        //           }
+        //           timeout(time: 2, unit: 'MINUTES'){
+        //             script{
+        //               waitForQualityGate abortPipeline: true
+        //             }
+        //           }
         //         }
         //     }
         //   }
         // }
 
-        stage('SonarQube Analysis') {
+        stage('Vulnerability Scan - Docker') {
           steps {
             script {
                 container(name: 'maven') {
                   withSonarQubeEnv('SonarQube'){
                     sh """
-                    mvn clean verify sonar:sonar \
-                    -Dsonar.projectKey=kubernetes-devops-security \
-                    -Dsonar.projectName='kubernetes-devops-security' \
-                    -Dsonar.host.url=http://34.28.94.32:9000 \
+                    mvn dependency-check:check
                     """
-                  }
-                  timeout(time: 2, unit: 'MINUTES'){
-                    script{
-                      waitForQualityGate abortPipeline: true
-                    }
                   }
                 }
             }
           }
+          post{
+            always {
+              dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+            }
+          }
         }
+
+
+
+
 
         stage('Build Image') {
             steps {
