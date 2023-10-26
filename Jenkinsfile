@@ -66,9 +66,13 @@ pipeline {
           steps {
             script {
                 container(name: 'maven') {
-                  withSonarQubeEnv() {
-                    sh "mvn clean verify sonar:sonar -Dsonar.host.url=http://34.28.94.32:9000 -Dsonar.projectKey=kubernetes-devops-security -Dsonar.projectName='kubernetes-devops-security'"
-                  }
+                    sh """
+                    mvn clean verify sonar:sonar \
+                    -Dsonar.projectKey=kubernetes-devops-security \
+                    -Dsonar.projectName='kubernetes-devops-security' \
+                    -Dsonar.host.url=http://34.28.94.32:9000 \
+                    -Dsonar.token=sqp_95c7d3f3a89f89b14c4a7c7d65012b7625119bfd
+                    """
                 }
             }
           }
