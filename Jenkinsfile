@@ -20,46 +20,58 @@ pipeline {
     }
     stages {
   
-        stage('Maven build') {
-            steps {
-                script {
-                    container(name: 'maven') {
-                        sh "printenv"
-                        sh "mvn clean package -DskipTests"
-                    }
-                }
-            }
-        }
+        // stage('Maven build') {
+        //     steps {
+        //         script {
+        //             container(name: 'maven') {
+        //                 sh "printenv"
+        //                 sh "mvn clean package -DskipTests"
+        //             }
+        //         }
+        //     }
+        // }
 
-        stage('Maven Test') {
-            steps {
-                script {
-                    container(name: 'maven') {
-                        sh "mvn test"
-                    }
-                }
-            }
-            post{
-              always {
-                junit 'target/surefire-reports/*.xml'
-                jacoco execPattern: 'target/jacoco.exec'
-              }
-            }
-        }
+        // stage('Maven Test') {
+        //     steps {
+        //         script {
+        //             container(name: 'maven') {
+        //                 sh "mvn test"
+        //             }
+        //         }
+        //     }
+        //     post{
+        //       always {
+        //         junit 'target/surefire-reports/*.xml'
+        //         jacoco execPattern: 'target/jacoco.exec'
+        //       }
+        //     }
+        // }
 
-        stage('Mutation Test - Pit') {
-            steps {
-                script {
-                    container(name: 'maven') {
-                        sh "mvn org.pitest:pitest-maven:mutationCoverage"
-                    }
+        // stage('Mutation Test - Pit') {
+        //     steps {
+        //         script {
+        //             container(name: 'maven') {
+        //                 sh "mvn org.pitest:pitest-maven:mutationCoverage"
+        //             }
+        //         }
+        //     }
+        //     post{
+        //       always {
+        //         pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+        //       }
+        //     }
+        // }
+
+        stage('SonarQube Analysis') {
+          steps {
+            script {
+                container(name: 'maven') {
+                  withSonarQubeEnv() {
+                    sh "mvn clean verify sonar:sonar -Dsonar.host.url=http://34.28.94.32:9000 -Dsonar.projectKey=kubernetes-devops-security -Dsonar.projectName='kubernetes-devops-security'"
+                  }
                 }
             }
-            post{
-              always {
-                pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
-              }
-            }
+          }
         }
 
         stage('Build Image') {

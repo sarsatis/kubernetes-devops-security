@@ -82,6 +82,13 @@ added plugin
 
 modified jenkins stage and modified test case
 
+# Sonarqube
+
+docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:latest
+
+default username/pass admin/admin i have changed it to general
+
+configured project and added stage in jenkins file
 
 
 
