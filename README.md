@@ -93,7 +93,9 @@ configured project and added stage in jenkins file
 check sonarQube-jenkins-scanner plugin and its documentation to configure sonarqube in confiure system
 https://docs.sonarsource.com/sonarqube/latest/analyzing-source-code/scanners/jenkins-extension-sonarqube/
 to create token go to sonarqube ui --> my account --> security --> create token
-and add webhook in sonarqube ui aswell
+and add webhook in sonarqube ui aswell http://34.28.94.32:30685/sonarqube-webhook/
+
+commented un used imports to resolve code smells
 
 
 

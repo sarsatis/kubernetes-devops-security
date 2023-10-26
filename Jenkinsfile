@@ -62,6 +62,7 @@ pipeline {
         //     }
         // }
 
+        // Below stage is without wait timeout it doesnt fail pipeline if sonar is failed
         // stage('SonarQube Analysis') {
         //   steps {
         //     script {
