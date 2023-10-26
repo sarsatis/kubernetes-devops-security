@@ -90,5 +90,10 @@ default username/pass admin/admin i have changed it to general
 
 configured project and added stage in jenkins file
 
+check sonarQube-jenkins-scanner plugin and its documentation to configure sonarqube in confiure system
+https://docs.sonarsource.com/sonarqube/latest/analyzing-source-code/scanners/jenkins-extension-sonarqube/
+to create token go to sonarqube ui --> my account --> security --> create token
+and add webhook in sonarqube ui aswell
+
 
 
