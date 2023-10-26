@@ -1,8 +1,8 @@
 // def podTemplate = libraryResource('podTemplate.yaml')
 def podTemplate = "podTemplate.yaml"
-def createPrAndAddLabelsScript = libraryResource "CreatePrAndAddLabelsWithOop.py"
-def requirementsTxt = libraryResource "RequirementsWithOop.txt"
-def dockerfile = libraryResource "DockerfileJavaMaven"
+// def createPrAndAddLabelsScript = libraryResource "CreatePrAndAddLabelsWithOop.py"
+// def requirementsTxt = libraryResource "RequirementsWithOop.txt"
+// def dockerfile = libraryResource "DockerfileJavaMaven"
 def jobNameParts = env.JOB_NAME.split('/')
 
 pipeline {
