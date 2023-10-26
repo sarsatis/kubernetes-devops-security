@@ -5,7 +5,7 @@ metadata:
     app: devsecops
   name: devsecops
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: devsecops
@@ -16,7 +16,7 @@ spec:
         app: devsecops
     spec:
       containers:
-      - image: sarthaksatish/kubernetes-devops-security:123
+      - image: replace
         name: devsecops-container
 ---
 apiVersion: v1
