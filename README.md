@@ -103,6 +103,8 @@ to check what other configurations https://jeremylong.github.io/DependencyCheck/
 
 OWASP-dependency-check-plugin is the plugin which we use in jenkins
 
+update spring boot parent release version to solve vulnerability issue found from dependency check plugin
+
 
 
 
