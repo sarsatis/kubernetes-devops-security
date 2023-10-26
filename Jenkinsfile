@@ -37,7 +37,7 @@ pipeline {
             }
         }
 
-        stage('Maven build') {
+        stage('Maven Test') {
             steps {
                 script {
                     container(name: 'maven') {
