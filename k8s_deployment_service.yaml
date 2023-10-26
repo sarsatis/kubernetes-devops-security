@@ -16,7 +16,7 @@ spec:
         app: devsecops
     spec:
       containers:
-      - image: replace
+      - image: sarthaksatish/kubernetes-devops-security:123
         name: devsecops-container
 ---
 apiVersion: v1

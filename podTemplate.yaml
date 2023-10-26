@@ -34,5 +34,12 @@ spec:
     volumeMounts:
       - name: kaniko-secret
         mountPath: /kaniko/.docker
+  - name: kubectl
+    image: bitnami/kubectl
+    command:
+      - sleep
+    args:
+      - "9999999"
+  
 
 
