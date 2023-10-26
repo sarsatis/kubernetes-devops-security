@@ -105,6 +105,15 @@ OWASP-dependency-check-plugin is the plugin which we use in jenkins
 
 update spring boot parent release version to solve vulnerability issue found from dependency check plugin
 
+# Trivy
+https://github.com/aquasecurity/trivy
+
+docker run --rm -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy image python:3.4-alpine
+
+docker run --rm -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy --severity SEVERE --exit-code 1 image python:3.4-alpine
+
+echo $? to see exit codes
+
 
 
 

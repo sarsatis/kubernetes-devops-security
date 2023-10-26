@@ -101,16 +101,33 @@ pipeline {
         //   }
         // }
 
+        // stage('Vulnerability Scan - Docker') {
+        //   steps {
+        //     script {
+        //         container(name: 'maven') {
+        //             sh "mvn dependency-check:check"
+        //         }
+        //     }
+        //   }
+        //   post{
+        //     always {
+        //       dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+        //     }
+        //   }
+        // }
+
         stage('Vulnerability Scan - Docker') {
           steps {
-            script {
-                container(name: 'maven') {
-                  withSonarQubeEnv('SonarQube'){
-                    sh """
-                    mvn dependency-check:check
-                    """
+              parallel(
+                "Dependency Scan": {
+                  container(name: 'maven') {
+                    sh "mvn dependency-check:check"
                   }
+                },
+                "Trivy scan": {
+                    sh "bash trivy-docker-image-scan.sh"
                 }
+              )
             }
           }
           post{
