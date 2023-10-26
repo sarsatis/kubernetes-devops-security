@@ -56,7 +56,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    writeFile file: "Dockerfile", text: dockerfile
+                    // writeFile file: "Dockerfile", text: dockerfile
                     container('kaniko') {
                         sh '''
                         /kaniko/executor --build-arg NAME=${NAME} --context `pwd` --destination ${IMAGE_REPO}/${NAME}:${VERSION}
