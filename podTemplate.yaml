@@ -7,12 +7,16 @@ spec:
   volumes:
     - name: sharedvolume
       emptyDir: {}
+    
     - name: kaniko-secret
       secret:
         secretName: dockercred
         items:
           - key: .dockerconfigjson
             path: config.json
+    - name: jenkins-data
+      persistentVolumeClaim:
+          claimName: my-hostpath-pvc
   serviceAccountName: jenkins
   securityContext:
     runAsUser: 0
@@ -25,6 +29,9 @@ spec:
       - sleep
     args:
       - 99d
+    volumeMounts:
+    - name: jenkins-data
+      mountPath: /var/jenkins_home
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     command:
