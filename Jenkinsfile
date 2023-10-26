@@ -66,6 +66,17 @@ pipeline {
             }
         }
 
+        stage('kubernetes deployment'){
+          steps{
+            withKubeConfig([credentialsId: 'kubeconfig']){
+              sh """
+              sed -i 's#replace#sarthaksatish/kubernetes-devops-security:${VERSION}#g' k8s_deployment_service.yaml
+              kubectl apply -f k8s_deployment_service.yaml
+              """
+            }
+          }
+        }
+
         // stage('Raise PR') {
         //     steps {
         //         script {
