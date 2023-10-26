@@ -118,17 +118,16 @@ pipeline {
 
         stage('Vulnerability Scan - Docker') {
           steps {
-              parallel(
-                "Dependency Scan": {
-                  container(name: 'maven') {
-                    sh "mvn dependency-check:check"
-                  }
-                },
-                "Trivy scan": {
-                    sh "bash trivy-docker-image-scan.sh"
+            parallel(
+              "Dependency Scan": {
+                container(name: 'maven') {
+                  sh "mvn dependency-check:check"
                 }
-              )
-            }
+              },
+              "Trivy scan": {
+                  sh "bash trivy-docker-image-scan.sh"
+              }
+            )
           }
           post{
             always {
@@ -136,10 +135,6 @@ pipeline {
             }
           }
         }
-
-
-
-
 
         stage('Build Image') {
             steps {
