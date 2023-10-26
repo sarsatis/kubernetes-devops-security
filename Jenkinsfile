@@ -42,6 +42,7 @@ pipeline {
                 script {
                     container(name: 'maven') {
                         sh "mvn test"
+                        
                     }
                 }
             }
