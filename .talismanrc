@@ -1,0 +1,3 @@
+fileignoreconfig:
+- filename: setup/vm-install-script/install-script.sh
+  checksum: 771ebd28764d112f8585a31a96ba8268e3df472d98063fe878e74764b50d6bb8
