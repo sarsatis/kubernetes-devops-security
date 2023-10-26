@@ -47,6 +47,21 @@ pipeline {
             }
         }
 
+        stage('Mutation Test - Pit') {
+            steps {
+                script {
+                    container(name: 'maven') {
+                        sh "mvn org.pittest:pittest-maven:mutationCoverage"
+                    }
+                }
+            }
+            post{
+              always {
+                pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+              }
+            }
+        }
+
         stage('Build Image') {
             steps {
                 script {
@@ -74,21 +89,6 @@ pipeline {
               }
             }
           }
-        }
-
-        stage('Mutation Test - Pit') {
-            steps {
-                script {
-                    container(name: 'maven') {
-                        sh "mvn org.pittest:pittest-maven:mutationCoverage"
-                    }
-                }
-            }
-            post{
-              always {
-                pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
-              }
-            }
         }
 
         // stage('Raise PR') {
