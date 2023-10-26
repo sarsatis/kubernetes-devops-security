@@ -19,61 +19,58 @@ pipeline {
         GITHUB_TOKEN = credentials('githubpat')
     }
     stages {
-        stage('Unit Tests') {
-            steps {
-                sh "printenv"
-                echo 'Implement unit tests if applicable.'
-                echo 'This stage is a sample placeholder'
-            }
-        }
-        
-        stage('Maven build') {
-            steps {
-                script {
-                    container(name: 'maven') {
-                        sh "mvn clean package -DskipTests"
-                    }
-                }
-            }
-        }
+  
+        // stage('Maven build') {
+        //     steps {
+        //         script {
+        //             container(name: 'maven') {
+        //                 sh "printenv"
+        //                 sh "mvn clean package -DskipTests"
+        //             }
+        //         }
+        //     }
+        // }
 
-        stage('Maven Test') {
-            steps {
-                script {
-                    container(name: 'maven') {
-                        sh "mvn test"
-                    }
-                }
-            }
-            post{
-              always {
-                junit 'target/surefire-reports/*.xml'
-                jacoco execPattern: 'target/jacoco.exec'
-              }
-            }
-        }
+        // stage('Maven Test') {
+        //     steps {
+        //         script {
+        //             container(name: 'maven') {
+        //                 sh "mvn test"
+        //             }
+        //         }
+        //     }
+        //     post{
+        //       always {
+        //         junit 'target/surefire-reports/*.xml'
+        //         jacoco execPattern: 'target/jacoco.exec'
+        //       }
+        //     }
+        // }
 
-        stage('Build Image') {
-            steps {
-                script {
-                    // writeFile file: "Dockerfile", text: dockerfile
-                    container('kaniko') {
-                        sh '''
-                        /kaniko/executor --build-arg NAME=${NAME} --context `pwd` --destination ${IMAGE_REPO}/${NAME}:${VERSION}
-                        '''
-                    }
-                }
-            }
-        }
+        // stage('Build Image') {
+        //     steps {
+        //         script {
+        //             // writeFile file: "Dockerfile", text: dockerfile
+        //             container('kaniko') {
+        //                 sh '''
+        //                 /kaniko/executor --build-arg NAME=${NAME} --context `pwd` --destination ${IMAGE_REPO}/${NAME}:${VERSION}
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('kubernetes deployment'){
           steps{
             script{
-              container('kubectl'){             
-                sh """
-                sed -i 's#replace#sarthaksatish/kubernetes-devops-security:${VERSION}#g' k8s_deployment_service.yaml
-                kubectl apply -f k8s_deployment_service.yaml
-                """
+              container('kubectl'){    
+                withKubeConfig([credentialsId: 'kubeconfig']){     
+                  sh """
+                  sed -i 's#replace#sarthaksatish/kubernetes-devops-security:${VERSION}#g' k8s_deployment_service.yaml
+                  cat k8s_deployment_service.yaml
+                  kubectl apply -f k8s_deployment_service.yaml
+                  """
+                }
               }
             }
           }
