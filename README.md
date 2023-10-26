@@ -44,6 +44,10 @@ kubeconfig file will be available in
 # Jacoco plugin 
 Add plugin in pom.xml and added post script
 
+# add webhook
+Remember to use GitHub instead of Git while configuring webhook
+In git --> settings --> hooks --> http://34.28.94.32:30685/github-webhook/ --> application/json
+
 # Create a node app
 k create deploy node-app --image siddharth67/node-service:v1
 k expose deploy node-app --name node-service --port 5000
@@ -71,6 +75,12 @@ cd my-git-project
 To skip a file add  .talismanrc file and add file content to it which you dont want it to scan next time
 
 once you remove the file again git add and git commit and git push
+
+# Pit mutation
+
+added plugin
+
+modified jenkins stage and modified test case
 
 
 

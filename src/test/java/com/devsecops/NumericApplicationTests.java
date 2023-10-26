@@ -34,10 +34,15 @@ public class NumericApplicationTests {
     @Autowired
     private MockMvc mockMvc;
 
+    // Uncomment commented section to generate pit mutation failure
+
     @Test
     public void smallerThanOrEqualToFiftyMessage() throws Exception {
-        this.mockMvc.perform(get("/compare/49")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(get("/compare/50")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string("Smaller than or equal to 50"));
+
+        // this.mockMvc.perform(get("/compare/49")).andDo(print()).andExpect(status().isOk())
+        //         .andExpect(content().string("Smaller than or equal to 50"));
     }
 
     @Test
@@ -48,7 +53,9 @@ public class NumericApplicationTests {
     
     @Test
     public void welcomeMessage() throws Exception {
-         this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk());
+         this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk()).andExpect(content().string("Kubernetes DevSecOps"));
+
+        //  this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk());
     }
     
 
