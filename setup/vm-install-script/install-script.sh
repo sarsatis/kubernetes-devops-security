@@ -72,10 +72,11 @@ mvn -v
 echo ".........----------------#################._.-.-JENKINS-.-._.#################----------------........."
 wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo apt-key add -
 sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo apt-get install --reinstall ca-certificates
 sudo apt update
 sudo apt install -y jenkins
-systemctl daemon-reload
-systemctl enable jenkins
+sudo systemctl daemon-reload
+sudo systemctl enable jenkins
 sudo systemctl start jenkins
 #sudo systemctl status jenkins
 sudo usermod -a -G docker jenkins
