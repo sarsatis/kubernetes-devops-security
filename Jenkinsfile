@@ -16,9 +16,7 @@ pipeline {
 
 
 
-    agent{
-      any
-    }
+    agent any
 
     environment {
         NAME = "${jobNameParts[0]}"
