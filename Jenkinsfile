@@ -18,35 +18,35 @@ pipeline {
 
     stages {
       
-//         stage('Maven build') {
-//             steps {
-//               sh "printenv"
-//               sh "mvn clean package -DskipTests"
-//             }
-//         }
-//
-//         stage('Maven Test') {
-//             steps {
-//               sh "mvn test"
-//             }
-//             post{
-//               always {
-//                 junit 'target/surefire-reports/*.xml'
-//                 jacoco execPattern: 'target/jacoco.exec'
-//               }
-//             }
-//         }
-//
-//         stage('Mutation Test - Pit') {
-//             steps {
-//               sh "mvn org.pitest:pitest-maven:mutationCoverage"
-//             }
-//             post{
-//               always {
-//                 pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
-//               }
-//             }
-//         }
+        stage('Maven build') {
+            steps {
+              sh "printenv"
+              sh "mvn clean package -DskipTests"
+            }
+        }
+
+        stage('Maven Test') {
+            steps {
+              sh "mvn test"
+            }
+            post{
+              always {
+                junit 'target/surefire-reports/*.xml'
+                jacoco execPattern: 'target/jacoco.exec'
+              }
+            }
+        }
+
+        stage('Mutation Test - Pit') {
+            steps {
+              sh "mvn org.pitest:pitest-maven:mutationCoverage"
+            }
+            post{
+              always {
+                pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+              }
+            }
+        }
 
         // // Below stage is without wait timeout it doesnt fail pipeline if sonar is failed
         // // stage('SonarQube Analysis') {
@@ -65,23 +65,23 @@ pipeline {
         // //   }
         // // }
 
-//         stage('SonarQube Analysis') {
-//           steps {
-//             withSonarQubeEnv('SonarQube'){
-//               sh """
-//               mvn clean verify sonar:sonar \
-//               -Dsonar.projectKey=kubernetes-devops-security \
-//               -Dsonar.projectName='kubernetes-devops-security' \
-//               -Dsonar.host.url=http://34.28.94.32:9000 \
-//               """
-//             }
-//             timeout(time: 2, unit: 'MINUTES'){
-//               script{
-//                 waitForQualityGate abortPipeline: true
-//               }
-//             }
-//           }
-//         }
+        stage('SonarQube Analysis') {
+          steps {
+            withSonarQubeEnv('SonarQube'){
+              sh """
+              mvn clean verify sonar:sonar \
+              -Dsonar.projectKey=kubernetes-devops-security \
+              -Dsonar.projectName='kubernetes-devops-security' \
+              -Dsonar.host.url=http://34.28.94.32:9000 \
+              """
+            }
+            timeout(time: 2, unit: 'MINUTES'){
+              script{
+                waitForQualityGate abortPipeline: true
+              }
+            }
+          }
+        }
 
         // stage('Vulnerability Scan - Docker') {
         //   steps {
@@ -94,23 +94,23 @@ pipeline {
         //   }
         // }
 
-//         stage('Vulnerability Scan - Docker') {
-//           steps {
-//             parallel(
-//               "Dependency Scan": {
-//                   sh "mvn dependency-check:check"
-//               },
-//               "Trivy scan": {
-//                   sh "bash trivy-docker-image-scan.sh"
-//               }
-//             )
-//           }
-//           post{
-//             always {
-//               dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
-//             }
-//           }
-//         }
+        stage('Vulnerability Scan - Docker') {
+          steps {
+            parallel(
+              "Dependency Scan": {
+                  sh "mvn dependency-check:check"
+              },
+              "Trivy scan": {
+                  sh "bash trivy-docker-image-scan.sh"
+              }
+            )
+          }
+          post{
+            always {
+              dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+            }
+          }
+        }
 
         stage('Build Image') {
             steps {
