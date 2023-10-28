@@ -13,6 +13,13 @@ pipeline {
     //     }
     // }
 
+
+
+
+    agent{
+      
+    }
+
     environment {
         NAME = "${jobNameParts[0]}"
         VERSION = "${env.GIT_COMMIT}-${env.BUILD_ID}"
