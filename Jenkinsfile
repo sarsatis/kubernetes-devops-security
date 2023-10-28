@@ -114,13 +114,9 @@ pipeline {
 
         stage('Build Image') {
             steps {
-                script {
-                    // writeFile file: "Dockerfile", text: dockerfile
-                    container('kaniko') {
-                        sh '''
-                        /kaniko/executor --build-arg NAME=${NAME} --context `pwd` --destination ${IMAGE_REPO}/${NAME}:${VERSION}
-                        '''
-                    }
+                withDockerRegistry([credentialsId: "docker-hub", url: ""]){
+                    sh 'sudo docker build -t ${IMAGE_REPO}/${NAME}:${VERSION} .'
+                    sh 'sudo docker push ${IMAGE_REPO}/${NAME}:${VERSION}'
                 }
             }
         }
