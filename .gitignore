@@ -28,3 +28,7 @@ bin
 .classpath
 .project
 target
+
+
+# IntelliJ IDEA
+.idea/

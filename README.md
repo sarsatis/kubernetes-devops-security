@@ -116,6 +116,8 @@ docker run --rm -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy --severity S
 
 echo $? to see exit codes
 
+updated docker image in docker file
+
 
 
 
