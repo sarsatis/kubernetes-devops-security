@@ -116,7 +116,7 @@ pipeline {
             steps {
                 withDockerRegistry([credentialsId: "docker-hub", url: ""]){
                     sh 'sudo docker build -t ${IMAGE_REPO}/${NAME}:${VERSION} .'
-                    sh 'sudo docker push ${IMAGE_REPO}/${NAME}:${VERSION}'
+                    sh 'docker push ${IMAGE_REPO}/${NAME}:${VERSION}'
                 }
             }
         }
