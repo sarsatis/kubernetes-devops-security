@@ -12,6 +12,9 @@ pipeline {
     //         yamlFile "$podTemplate"
     //     }
     // }
+    agent {
+      any
+    }
     environment {
         NAME = "${jobNameParts[0]}"
         VERSION = "${env.GIT_COMMIT}-${env.BUILD_ID}"
