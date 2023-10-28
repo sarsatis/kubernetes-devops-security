@@ -6,15 +6,6 @@ def podTemplate = "podTemplate.yaml"
 def jobNameParts = env.JOB_NAME.split('/')
 
 pipeline {
-    // agent {
-    //     kubernetes {
-    //         label "jenkins-${UUID.randomUUID().toString()}"
-    //         yamlFile "$podTemplate"
-    //     }
-    // }
-
-
-
 
     agent any
 
@@ -24,8 +15,9 @@ pipeline {
         IMAGE_REPO = "sarthaksatish"
         GITHUB_TOKEN = credentials('githubpat')
     }
+
     stages {
-  
+      
         stage('Maven build') {
             steps {
               sh "printenv"
