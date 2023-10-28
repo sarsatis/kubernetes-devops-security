@@ -6,12 +6,12 @@ def podTemplate = "podTemplate.yaml"
 def jobNameParts = env.JOB_NAME.split('/')
 
 pipeline {
-    agent {
-        kubernetes {
-            label "jenkins-${UUID.randomUUID().toString()}"
-            yamlFile "$podTemplate"
-        }
-    }
+    // agent {
+    //     kubernetes {
+    //         label "jenkins-${UUID.randomUUID().toString()}"
+    //         yamlFile "$podTemplate"
+    //     }
+    // }
     environment {
         NAME = "${jobNameParts[0]}"
         VERSION = "${env.GIT_COMMIT}-${env.BUILD_ID}"
