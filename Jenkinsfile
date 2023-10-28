@@ -17,7 +17,7 @@ pipeline {
 
 
     agent{
-      
+      any
     }
 
     environment {
