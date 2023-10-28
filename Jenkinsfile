@@ -125,9 +125,7 @@ pipeline {
                 }
               },
               "Trivy scan": {
-                container(name: 'docker') {
                   sh "bash trivy-docker-image-scan.sh"
-                }
               }
             )
           }
