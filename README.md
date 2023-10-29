@@ -149,6 +149,10 @@ USER k8s-pipeline
 ENTRYPOINT ["java","-jar","/home/k8s-pipeline/app.jar"]
 ```
 
+# kubesec
+
+added parallel stage for this and added bash file
+
 
 
 
