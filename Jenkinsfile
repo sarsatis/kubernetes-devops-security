@@ -11,6 +11,8 @@ pipeline {
 
     environment {
         NAME = "${jobNameParts[0]}"
+        DEPLOYMENT_NAME = "devsecops"
+        CONTAINER_NAME = "devsecops-container"
         VERSION = "${env.GIT_COMMIT}-${env.BUILD_ID}"
         IMAGE_REPO = "sarthaksatish"
         GITHUB_TOKEN = credentials('githubpat')
@@ -130,17 +132,32 @@ pipeline {
             }
         }
 
-        stage('kubernetes deployment'){
+        // stage('kubernetes deployment - dev'){
+        //   steps{  
+        //       withKubeConfig([credentialsId: 'kubeconfig']){     
+        //         sh """
+        //           sed -i 's#replace#${IMAGE_REPO}/${NAME}:${VERSION}#g' k8s_deployment_service.yaml
+        //           cat k8s_deployment_service.yaml
+        //           kubectl apply -f k8s_deployment_service.yaml
+        //         """
+        //       }
+        //   }
+        // }
+
+        stage('kubernetes deployment - dev'){
           steps{
-            script{    
-              withKubeConfig([credentialsId: 'kubeconfig']){     
-                sh """
-                  sed -i 's#replace#sarthaksatish/kubernetes-devops-security:${VERSION}#g' k8s_deployment_service.yaml
-                  cat k8s_deployment_service.yaml
-                  kubectl apply -f k8s_deployment_service.yaml
-                """
+            parallel(
+              "Deployment": {
+                withKubeConfig([credentialsId: 'kubeconfig']){   
+                  sh "bash k8s-deployment.sh"
+                }
+              },
+              "Rollout Status": {
+                withKubeConfig([credentialsId: 'kubeconfig']){   
+                  sh "bash k8s-deployment-rollout-status.sh"
+                }
               }
-            }
+            )
           }
         }
 
