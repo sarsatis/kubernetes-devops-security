@@ -190,5 +190,13 @@ pipeline {
             }
           }
         }
+
+        stage('OWASP Zap scan'){
+          steps{
+            withKubeConfig([credentialsId: 'kubeconfig']){   
+              sh "bash zap.sh"
+            }
+          }
+        }
     }
 }
