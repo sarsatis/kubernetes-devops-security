@@ -102,8 +102,7 @@ pipeline {
               },
               "Trivy scan": {
                   sh "bash trivy-docker-image-scan.sh"
-              }
-              ,
+              },
               "Opa Conf Test": {
                   sh 'docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy dockerfile-security.rego Dockerfile'
               }

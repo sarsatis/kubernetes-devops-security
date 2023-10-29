@@ -126,6 +126,32 @@ https://github.com/gbrindisi/dockerfile-security/blob/main/dockerfile-security.r
 
 added stage in jenkins file to run OpaConf test
 
+Dockerfile should not contain any root user or should not use ADD instruction opa checks that and reports that
+```t
+FROM adoptopenjdk/openjdk8:alpine-slim
+# FROM openjdk:8-jdk-alpine
+EXPOSE 8080
+ARG JAR_FILE=target/*.jar
+ADD ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
+```
+
+To solve this issue below docker file was used
+
+```t
+FROM adoptopenjdk/openjdk8:alpine-slim
+# FROM openjdk:8-jdk-alpine
+EXPOSE 8080
+ARG JAR_FILE=target/*.jar
+RUN addgroup -S pipeline && adduser -S k8s-pipeline -G pipeline
+COPY ${JAR_FILE} /home/k8s-pipeline/app.jar
+USER k8s-pipeline
+ENTRYPOINT ["java","-jar","/home/k8s-pipeline/app.jar"]
+```
+
+
+
+
 
 
 
