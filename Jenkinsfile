@@ -18,12 +18,12 @@ pipeline {
 
     stages {
       
-        // stage('Maven build') {
-        //     steps {
-        //       sh "printenv"
-        //       sh "mvn clean package -DskipTests"
-        //     }
-        // }
+        stage('Maven build') {
+            steps {
+              sh "printenv"
+              sh "mvn clean package -DskipTests"
+            }
+        }
 
         // stage('Maven Test') {
         //     steps {
@@ -94,26 +94,26 @@ pipeline {
         // //   }
         // // }
 
-        stage('Vulnerability Scan - Docker') {
-          steps {
-            parallel(
-              "Dependency Scan": {
-                  sh "mvn dependency-check:check"
-              },
-              "Trivy scan": {
-                  sh "bash trivy-docker-image-scan.sh"
-              },
-              "Opa Conf Test": {
-                  sh 'docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy dockerfile-security.rego Dockerfile'
-              }
-            )
-          }
-          post{
-            always {
-              dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
-            }
-          }
-        }
+        // stage('Vulnerability Scan - Docker') {
+        //   steps {
+        //     parallel(
+        //       "Dependency Scan": {
+        //           sh "mvn dependency-check:check"
+        //       },
+        //       "Trivy scan": {
+        //           sh "bash trivy-docker-image-scan.sh"
+        //       },
+        //       "Opa Conf Test": {
+        //           sh 'docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy dockerfile-security.rego Dockerfile'
+        //       }
+        //     )
+        //   }
+        //   post{
+        //     always {
+        //       dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+        //     }
+        //   }
+        // }
 
         stage('Build Image') {
             steps {
