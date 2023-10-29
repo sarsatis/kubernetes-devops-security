@@ -5,7 +5,7 @@ kubectl -n jenkins get deploy ${DEPLOYMENT_NAME} > /dev/null
 
 if [[ $? -ne 0 ]]; then
     echo "deployment ${DEPLOYMENT_NAME} doesnt exists"
-    kubectl apply -f -n jenkins k8s_deployment_service.yaml
+    kubectl apply -n jenkins -f k8s_deployment_service.yaml
 else
     echo "deployment ${DEPLOYMENT_NAME} exists"
     echo "image name - ${IMAGE_REPO}/${NAME}:${VERSION}"
