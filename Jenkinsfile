@@ -128,38 +128,45 @@ pipeline {
 
         stage('Vulnerability Scan k8s') {
             steps {
-                sh 'docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy k8s-security.rego k8s_deployment_service.yaml'
+              parallel(
+                "OPA Scan":{
+                  sh 'docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy k8s-security.rego k8s_deployment_service.yaml'
+                },
+                "kubesec scan":{
+                  sh "bash kubesec-scan.sh"
+                }
+              )
             }
         }
 
-        // stage('kubernetes deployment - dev'){
-        //   steps{  
-        //       withKubeConfig([credentialsId: 'kubeconfig']){     
-        //         sh """
-        //           sed -i 's#replace#${IMAGE_REPO}/${NAME}:${VERSION}#g' k8s_deployment_service.yaml
-        //           cat k8s_deployment_service.yaml
-        //           kubectl apply -f k8s_deployment_service.yaml
-        //         """
-        //       }
-        //   }
-        // }
-
         stage('kubernetes deployment - dev'){
-          steps{
-            parallel(
-              "Deployment": {
-                withKubeConfig([credentialsId: 'kubeconfig']){   
-                  sh "bash k8s-deployment.sh"
-                }
-              },
-              "Rollout Status": {
-                withKubeConfig([credentialsId: 'kubeconfig']){   
-                  sh "bash k8s-deployment-rollout-status.sh"
-                }
+          steps{  
+              withKubeConfig([credentialsId: 'kubeconfig']){     
+                sh """
+                  sed -i 's#replace#${IMAGE_REPO}/${NAME}:${VERSION}#g' k8s_deployment_service.yaml
+                  cat k8s_deployment_service.yaml
+                  kubectl apply -f k8s_deployment_service.yaml
+                """
               }
-            )
           }
         }
+
+        // stage('kubernetes deployment - dev'){
+        //   steps{
+        //     parallel(
+        //       "Deployment": {
+        //         withKubeConfig([credentialsId: 'kubeconfig']){   
+        //           sh "bash k8s-deployment.sh"
+        //         }
+        //       },
+        //       "Rollout Status": {
+        //         withKubeConfig([credentialsId: 'kubeconfig']){   
+        //           sh "bash k8s-deployment-rollout-status.sh"
+        //         }
+        //       }
+        //     )
+        //   }
+        // }
 
         // stage('Raise PR') {
         //     steps {

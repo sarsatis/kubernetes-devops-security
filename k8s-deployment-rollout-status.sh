@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sleep 60s
+sleep 20s
 
 if [[ $(kubectl -n jenkins rollout status deploy ${DEPLOYMENT_NAME} --timeout 5s) != *"successfully rolled out"* ]];
 then 
