@@ -118,6 +118,13 @@ echo $? to see exit codes
 
 updated docker image in docker file
 
+# Conf test 
+
+https://www.conftest.dev/
+
+https://github.com/gbrindisi/dockerfile-security/blob/main/dockerfile-security.rego
+
+added stage in jenkins file to run OpaConf test
 
 
 
