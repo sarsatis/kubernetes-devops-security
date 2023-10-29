@@ -117,6 +117,12 @@ pipeline {
 
         stage('Build Image') {
             steps {
+                sh 'docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy k8s-security.rego k8s_deployment_service.yaml'
+            }
+        }
+
+        stage('Vulnerability Scan k8s') {
+            steps {
                 withDockerRegistry([credentialsId: "docker-hub", url: ""]){
                     sh 'sudo docker build -t ${IMAGE_REPO}/${NAME}:${VERSION} .'
                     sh 'docker push ${IMAGE_REPO}/${NAME}:${VERSION}'
