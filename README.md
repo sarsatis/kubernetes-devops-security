@@ -159,6 +159,20 @@ as of now i have given exit code as 0 for critical vulnerabilities
 
 # Added integration tests after k8s deployment
 
+# Added zap scan
+
+https://springdoc.org/
+
+Zap works on openapi spec so we have to add this dependency
+
+```t
+<dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>2.2.0</version>
+</dependency>
+```
+
 
 
 
