@@ -139,34 +139,34 @@ pipeline {
             }
         }
 
-        stage('kubernetes deployment - dev'){
-          steps{  
-              withKubeConfig([credentialsId: 'kubeconfig']){     
-                sh """
-                  sed -i 's#replace#${IMAGE_REPO}/${NAME}:${VERSION}#g' k8s_deployment_service.yaml
-                  cat k8s_deployment_service.yaml
-                  kubectl apply -f k8s_deployment_service.yaml
-                """
-              }
-          }
-        }
-
         // stage('kubernetes deployment - dev'){
-        //   steps{
-        //     parallel(
-        //       "Deployment": {
-        //         withKubeConfig([credentialsId: 'kubeconfig']){   
-        //           sh "bash k8s-deployment.sh"
-        //         }
-        //       },
-        //       "Rollout Status": {
-        //         withKubeConfig([credentialsId: 'kubeconfig']){   
-        //           sh "bash k8s-deployment-rollout-status.sh"
-        //         }
+        //   steps{  
+        //       withKubeConfig([credentialsId: 'kubeconfig']){     
+        //         sh """
+        //           sed -i 's#replace#${IMAGE_REPO}/${NAME}:${VERSION}#g' k8s_deployment_service.yaml
+        //           cat k8s_deployment_service.yaml
+        //           kubectl apply -f k8s_deployment_service.yaml
+        //         """
         //       }
-        //     )
         //   }
         // }
+
+        stage('kubernetes deployment - dev'){
+          steps{
+            parallel(
+              "Deployment": {
+                withKubeConfig([credentialsId: 'kubeconfig']){   
+                  sh "bash k8s-deployment.sh"
+                }
+              },
+              "Rollout Status": {
+                withKubeConfig([credentialsId: 'kubeconfig']){   
+                  sh "bash k8s-deployment-rollout-status.sh"
+                }
+              }
+            )
+          }
+        }
 
         // stage('Raise PR') {
         //     steps {
