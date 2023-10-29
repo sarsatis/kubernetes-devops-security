@@ -157,6 +157,8 @@ added parallel stage for this and added bash file
 added trivy scan for our docker image aswell its in Vulnerability Scan k8s stage 
 as of now i have given exit code as 0 for critical vulnerabilities
 
+# Added integration tests after k8s deployment
+
 
 
 

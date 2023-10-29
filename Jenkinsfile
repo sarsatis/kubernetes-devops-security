@@ -16,6 +16,9 @@ pipeline {
         VERSION = "${env.GIT_COMMIT}-${env.BUILD_ID}"
         IMAGE_REPO = "sarthaksatish"
         GITHUB_TOKEN = credentials('githubpat')
+        SERVICE_NAME = "devsecops-svc"
+        APPLICATION_URL="http://34.28.94.32"
+        APPLICATION_URI="increment/99"
     }
 
     stages {
@@ -171,23 +174,21 @@ pipeline {
           }
         }
 
-        // stage('Raise PR') {
-        //     steps {
-        //         script {
-        //             writeFile file: "CreatePrAndAddLabel.py", text: createPrAndAddLabelsScript
-        //             writeFile file: "requirements.txt", text: requirementsTxt
-        //             container(name: 'python') {
-        //                 // In case if you have internal repository which needs certificates it needs to be set like this
-        //                 // add the below set command in sh block
-        //                 // set -e
-        //                 // export REQUESTS_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
-        //                 sh '''
-        //                     pip3 install -r requirements.txt
-        //                     python3 CreatePrAndAddLabel.py
-        //                 '''
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Integration Tests - Dev'){
+          steps{
+            script{
+              try{
+                withKubeConfig([credentialsId: 'kubeconfig']){   
+                  sh "bash integration-test.sh"
+                }
+              }catch(e){
+                withKubeConfig([credentialsId: 'kubeconfig']){   
+                  sh "kubectl -n jenkins rollout undo deploy ${DEPLOYMENT_NAME}"
+                }
+                throw e
+              }
+            }
+          }
+        }
     }
 }
