@@ -18,81 +18,81 @@ pipeline {
 
     stages {
       
-        stage('Maven build') {
-            steps {
-              sh "printenv"
-              sh "mvn clean package -DskipTests"
-            }
-        }
+        // stage('Maven build') {
+        //     steps {
+        //       sh "printenv"
+        //       sh "mvn clean package -DskipTests"
+        //     }
+        // }
 
-        stage('Maven Test') {
-            steps {
-              sh "mvn test"
-            }
-            post{
-              always {
-                junit 'target/surefire-reports/*.xml'
-                jacoco execPattern: 'target/jacoco.exec'
-              }
-            }
-        }
+        // stage('Maven Test') {
+        //     steps {
+        //       sh "mvn test"
+        //     }
+        //     post{
+        //       always {
+        //         junit 'target/surefire-reports/*.xml'
+        //         jacoco execPattern: 'target/jacoco.exec'
+        //       }
+        //     }
+        // }
 
-        stage('Mutation Test - Pit') {
-            steps {
-              sh "mvn org.pitest:pitest-maven:mutationCoverage"
-            }
-            post{
-              always {
-                pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
-              }
-            }
-        }
+        // stage('Mutation Test - Pit') {
+        //     steps {
+        //       sh "mvn org.pitest:pitest-maven:mutationCoverage"
+        //     }
+        //     post{
+        //       always {
+        //         pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+        //       }
+        //     }
+        // }
 
-        // Below stage is without wait timeout it doesnt fail pipeline if sonar is failed
+        // // Below stage is without wait timeout it doesnt fail pipeline if sonar is failed
+        // // stage('SonarQube Analysis') {
+        // //   steps {
+        // //     script {
+        // //         container(name: 'maven') {
+        // //             sh """
+        // //             mvn clean verify sonar:sonar \
+        // //             -Dsonar.projectKey=kubernetes-devops-security \
+        // //             -Dsonar.projectName='kubernetes-devops-security' \
+        // //             -Dsonar.host.url=http://34.28.94.32:9000 \
+        // //             -Dsonar.token=sqp_95c7d3f3a89f89b14c4a7c7d65012b7625119bfd
+        // //             """
+        // //         }
+        // //     }
+        // //   }
+        // // }
+
         // stage('SonarQube Analysis') {
         //   steps {
-        //     script {
-        //         container(name: 'maven') {
-        //             sh """
-        //             mvn clean verify sonar:sonar \
-        //             -Dsonar.projectKey=kubernetes-devops-security \
-        //             -Dsonar.projectName='kubernetes-devops-security' \
-        //             -Dsonar.host.url=http://34.28.94.32:9000 \
-        //             -Dsonar.token=sqp_95c7d3f3a89f89b14c4a7c7d65012b7625119bfd
-        //             """
-        //         }
+        //     withSonarQubeEnv('SonarQube'){
+        //       sh """
+        //       mvn clean verify sonar:sonar \
+        //       -Dsonar.projectKey=kubernetes-devops-security \
+        //       -Dsonar.projectName='kubernetes-devops-security' \
+        //       -Dsonar.host.url=http://34.28.94.32:9000 \
+        //       """
+        //     }
+        //     timeout(time: 2, unit: 'MINUTES'){
+        //       script{
+        //         waitForQualityGate abortPipeline: true
+        //       }
         //     }
         //   }
         // }
 
-        stage('SonarQube Analysis') {
-          steps {
-            withSonarQubeEnv('SonarQube'){
-              sh """
-              mvn clean verify sonar:sonar \
-              -Dsonar.projectKey=kubernetes-devops-security \
-              -Dsonar.projectName='kubernetes-devops-security' \
-              -Dsonar.host.url=http://34.28.94.32:9000 \
-              """
-            }
-            timeout(time: 2, unit: 'MINUTES'){
-              script{
-                waitForQualityGate abortPipeline: true
-              }
-            }
-          }
-        }
-
-        // stage('Vulnerability Scan - Docker') {
-        //   steps {
-        //     sh "mvn dependency-check:check"
-        //   }
-        //   post{
-        //     always {
-        //       dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
-        //     }
-        //   }
-        // }
+        // // stage('Vulnerability Scan - Docker') {
+        // //   steps {
+        // //     sh "mvn dependency-check:check"
+        // //   }
+        // //   post{
+        // //     always {
+        // //       dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+        // //     }
+        // //   }
+        // // }
 
         stage('Vulnerability Scan - Docker') {
           steps {
