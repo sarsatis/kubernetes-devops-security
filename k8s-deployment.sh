@@ -8,6 +8,6 @@ if [[ $? -ne 0 ]]; then
     kubectl apply -f -n jenkins k8s_deployment_service.yaml
 else
     echo "deployment ${DEPLOYMENT_NAME} exists"
-    echo "image name - ${imageName}"
+    echo "image name - ${IMAGE_REPO}/${NAME}:${VERSION}"
     kubectl -n jenkins set image deploy ${DEPLOYMENT_NAME} ${CONTAINER_NAME}=${IMAGE_REPO}/${NAME}:${VERSION} --record=true
 fi
