@@ -153,6 +153,10 @@ ENTRYPOINT ["java","-jar","/home/k8s-pipeline/app.jar"]
 
 added parallel stage for this and added bash file
 
+# Trivy
+added trivy scan for our docker image aswell its in Vulnerability Scan k8s stage 
+as of now i have given exit code as 0 for critical vulnerabilities
+
 
 
 
