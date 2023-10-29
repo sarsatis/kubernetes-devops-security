@@ -4,6 +4,7 @@ metadata:
   labels:
     app: devsecops
   name: devsecops
+  namespace: mfa
 spec:
   replicas: 1
   selector:
@@ -37,6 +38,7 @@ metadata:
   labels:
     app: devsecops
   name: devsecops-svc
+  namespace: mfa
 spec:
   ports:
   - port: 8080

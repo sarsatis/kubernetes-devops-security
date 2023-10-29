@@ -4,7 +4,7 @@
 
 sleep 5s
 
-PORT=$(kubectl -n jenkins get svc ${SERVICE_NAME} -o json | jq .spec.ports[].nodePort)
+PORT=$(kubectl -n mfa get svc ${SERVICE_NAME} -o json | jq .spec.ports[].nodePort)
 
 echo $PORT
 echo $APPLICATION_URL:$PORT/$APPLICATION_URI
