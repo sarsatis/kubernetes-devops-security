@@ -1,4 +1,5 @@
-@library('slack') _
+@Library('slack') _
+
 // def podTemplate = libraryResource('podTemplate.yaml')
 def podTemplate = "podTemplate.yaml"
 // def createPrAndAddLabelsScript = libraryResource "CreatePrAndAddLabelsWithOop.py"
