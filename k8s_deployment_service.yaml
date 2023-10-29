@@ -16,9 +16,15 @@ spec:
         app: devsecops
     spec:
       serviceAccountName: default
+      volumes:
+      - name: pvvol
+        emptyDir: {}
       containers:
       - image: replace
         name: devsecops-container
+        volumeMounts:
+        - name: pvvol
+          mountPath: /tmp
         securityContext:
            runAsNonRoot: true
            runAsUser: 100
