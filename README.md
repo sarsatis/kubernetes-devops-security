@@ -173,7 +173,7 @@ Zap works on openapi spec so we have to add this dependency
 </dependency>
 ```
 
-
+i have not fixed zap security failures so i have ignored it by commenting exit code
 
 
 
