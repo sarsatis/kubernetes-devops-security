@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sed -i 's#replace#${IMAGE_NAME}#g' k8s_deployment_service.yaml
+sed -i "s#replace#${IMAGE_REPO}/${NAME}:${VERSION}#g" k8s_deployment_service.yaml
 # kubectl -n jenkins get deploy ${DEPLOYMENT_NAME} > /dev/null
 
 # if [[ $? -ne 0 ]]; then

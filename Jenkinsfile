@@ -16,7 +16,6 @@ pipeline {
         VERSION = "${env.GIT_COMMIT}-${env.BUILD_ID}"
         IMAGE_REPO = "sarthaksatish"
         GITHUB_TOKEN = credentials('githubpat')
-        IMAGE_NAME = "${IMAGE_REPO}/${NAME}:${VERSION}"
     }
 
     stages {
