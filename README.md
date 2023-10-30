@@ -167,15 +167,49 @@ Zap works on openapi spec so we have to add this dependency
 
 ```t
 <dependency>
-      <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-      <version>2.2.0</version>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-ui</artifactId>
+    <version>1.2.30</version>
 </dependency>
 ```
 
 i have not fixed zap security failures so i have ignored it by commenting exit code
 
+http://34.28.94.32:31784/v3/api-docs
+http://34.28.94.32:31784/swagger-ui.html
 
 
+# Configured slack
 
+https://thesarthak.slack.com/services/B063CTH687N?added=1
+
+# Istio
+
+https://istio.io/latest/docs/setup/getting-started/
+
+For lab istio use below one's
+
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.9.0 sh -
+cd istio-1.9.0/
+export PATH=$PWD/bin:$PATH
+istioctl install --set profile=demo -y && kubectl apply -f samples/addons/
+kubectl label namespace istio-system istio-injection=disabled
+
+Below ones are latest
+<!-- 
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.19.3 sh -
+cd istio-1.19.3/
+export PATH=$PWD/bin:$PATH
+istioctl install --set profile=demo -y && kubectl apply -f samples/addons/ 
+-->
+
+## Uninstallation Steps
+kubectl label namespace <name> istio-injection=enabled
+
+kubectl delete -f samples/addons
+istioctl uninstall -y --purge
+
+kubectl delete namespace istio-system
+
+kubectl label namespace default istio-injection-
 
