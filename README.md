@@ -215,3 +215,15 @@ kubectl label namespace default istio-injection-
 
 while true; do curl -s svcclusterip:port/increment/99;sleep 1;done
 
+When permissive mode is STRICT use istio gateway and vs to route traffic.
+Note :- For nodeport while acessing via gateway get it from istio-ingressgateway from istio-system namespace
+
+while true; do curl -s localhost:32176/increment/99;sleep 0.5;done
+
+# Monitoring
+
+## Prometheus
+
+This is installed as part of istio change it to nodeport and use
+
+# Helm
