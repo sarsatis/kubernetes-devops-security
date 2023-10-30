@@ -213,3 +213,5 @@ kubectl delete namespace istio-system
 
 kubectl label namespace default istio-injection-
 
+while true; do curl -s svcclusterip:port/increment/99; echo;sleep 1;done
+
