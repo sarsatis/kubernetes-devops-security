@@ -226,4 +226,7 @@ while true; do curl -s localhost:32176/increment/99;sleep 0.5;done
 
 This is installed as part of istio change it to nodeport and use
 
-# Helm
+# Vault
+
+For vault documentation see this https://github.com/sarsatis/devops-tools/tree/master/3.vault
+
